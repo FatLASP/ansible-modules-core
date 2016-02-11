@@ -417,10 +417,10 @@ def what_provides(module, repoq, req_spec, conf_file,  qf=def_qf, en_repos=None,
         cmd = myrepoq + ["--qf", qf, req_spec]
         rc2,out2,err2 = module.run_command(cmd)
         if rc == 0 and rc2 == 0:
-            out += out2
             if "as root" in err:
                 perm_error = err.split('.')
                 module.fail_json(msg="Permission error: %s: %s" % (cmd, perm_error[1]))
+            out += out2
             pkgs = set([ p for p in out.split('\n') if p.strip() ])
             if not pkgs:
                 pkgs = is_installed(module, repoq, req_spec, conf_file, qf=qf)
